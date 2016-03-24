@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+    
+    
+<script language="JavaScript">
+function toggle(source) {
+  checkboxes = document.getElementsByName('id');
+  for(var i=0, n=checkboxes.length;i<n;i++) {
+    checkboxes[i].checked = source.checked;
+  }
+}
+</script>
+
+  <head>
+    <title>Comments' moderation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body>
+    <div class="container">
+      <h1>Comments</h2>
+      
+      
+<form action="/moderation" method="get">
+Search by author: <input type="text" name="author"><br>
+Search by IP: <input type="text" name="remote_addr"><br>
+Search by email: <input type="text" name="email"><br>
+Search by title: <input type="text" name="title"><br>
+
+<button type="submit">Search</button>
+</form> 
+      
+ 
+   <form action="/delete" method="post">
+     <button type="submit" name="submit" value="submit">Delete selected comments</button>
+     <br/><input type="checkbox" onClick="toggle(this)" /> Toggle All
+
+    {% for c in comments %}
+      <hr>
+      <input type="checkbox" name="id" value="{{ c["id"] }}">  <b>{{ c["author"] }}</b> -  {{ c["created"] }} - <a href={{ c["uri"] }}>{{ c["title"] }}</a> - {{ c["remote_addr"] }} - {{ c["email"] }}
+      </p>
+      <p>{{ c["text"] }}</p>        
+      {% endfor %}
+    
+  </form>
+      
+            
+
+    </div>
+    
+
+  
+    
+  </body>
+
+
+</html>
