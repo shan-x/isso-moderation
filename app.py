@@ -12,6 +12,9 @@ DATABASE = "comments.db"
 app = Flask(__name__, template_folder="templates")
 
 
+# USER AUHT
+# http://flask.pocoo.org/snippets/8/
+
 
 def check_auth(username, password):
     """This function is called to check if a username /
@@ -41,7 +44,6 @@ def requires_auth(f):
 
 def dict_factory(cursor, row):
     '''Useful function to print tables SELECT as dict'''
-
     d = {}
     for idx, col in enumerate(cursor.description):
         d[col[0]] = row[idx]
@@ -51,7 +53,6 @@ def dict_factory(cursor, row):
 def connect_to_db():
     '''Manage the connection opening to the DB
     Does NOT include the closure of the connection'''
-
     if not os.path.isfile(DATABASE):
         print("Database not found, exit.")
         sys.exit(1)
@@ -69,7 +70,6 @@ def print_comments(search_args=None):
     Return 1 if error during the search (bad search argument)
     Return 2 if nothing to diplay
     '''
-
     conn = connect_to_db()
     conn.row_factory = dict_factory
     cursor = conn.cursor()
@@ -109,7 +109,6 @@ def delete_comment(selected_comments):
     '''Delete the selected comments.
     selected_comments is the list of the id (PRIMARY KEYS)
     '''
-
     conn = connect_to_db()
     cursor = conn.cursor()
     selected_comments = tuple(selected_comments)
@@ -135,7 +134,6 @@ def home():
 def moderation():
     '''Default page. Display the comment depending on the search arguments
     '''
-
     if request.method == 'GET':
         search_args = {}
         for arg in request.args:
@@ -157,7 +155,6 @@ def delete():
     '''Used for deleting comments.
     Receive a list of id and gives it to delete_comment()
     '''
-
     selected_comments = request.form.getlist('id')
     try:
         selected_comments = [ int(x) for x in selected_comments ]
